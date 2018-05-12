@@ -1,0 +1,43 @@
+﻿@model IEnumerable<SchoolManagement.Models.ClassRoom>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_DBALayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { @class = "btn btn-primary" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ClassRoomID)
+        </th>
+        <th>
+           @Html.DisplayNameFor(model => model.Location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.maxSize)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassRoomID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.maxSize)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ClassRoomID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ClassRoomID })
+            </td>
+        </tr>
+    }
+</table>

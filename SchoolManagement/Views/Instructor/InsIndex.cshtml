@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "InsIndex";
+    Layout = "~/Views/Shared/_INSLayout.cshtml";
+}
+<div class="jumbotron">
+    <p>
+        This is an instructor management page.
+    </p>
+    @if (Session["alarm"] != null)
+    {
+        <span>@Session["alarm"]</span>
+    }
+</div>

@@ -1,0 +1,53 @@
+﻿@model IEnumerable<SchoolManagement.Models.Schedual>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_INSLayout.cshtml";
+}
+@Html.ActionLink("Create New","Create")
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        Select Semester:@Html.DropDownList("SelectedSemester",ViewBag.SelectedSemester as SelectList, "All",new { @class = "form-control" })
+        <input type="submit" value="Filter" class="btn btn-primary pull-right btn-sm" />
+    </div>
+}
+<table class="table">
+    <tr>
+        <th>semester</th>
+        <th>course</th>
+        <th>credits</th>
+        <th>department</th>
+        <th>required/elective</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem=>item.semester)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.course.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.course.Credits)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.department.Name)
+            </td>
+            @if(item.level==0)
+            {
+                <td>required</td>
+            }
+            else
+            {
+                <td>elective</td>
+            }
+            <td>
+                @Html.ActionLink("Delete","Delete",new { id = item.SchedualID })|
+                @Html.ActionLink("Edit", "Edit", new { id = item.SchedualID })
+            </td>
+        </tr>
+    }
+</table>
+

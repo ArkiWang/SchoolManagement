@@ -1,0 +1,75 @@
+﻿@model SchoolManagement.Models.Schedual
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_INSLayout.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+    function FillCourse() {
+        var DepartmentID = $("#Department").val();
+        $.ajax({
+            url: '/Schedual/FillCourse',
+            type: "GET",
+            dataType: "JSON",
+            data: { departmentID: DepartmentID },
+            success: function (courses) {
+                $("#Course").html("");
+                $.each(courses, function (i, course) {
+                    $("#Course").append(
+                        $('<option></option>').val(course.CourseID).html(course.Title));
+                });
+            }
+        });
+    }
+</script>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Department", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.DepartmentID, ViewBag.department as SelectList, "Department", new { @class = "form-control",
+               @onchange ="FillCourse()",id= "Department" })
+                @Html.ValidationMessageFor(model => model.DepartmentID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Course", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.CourseID, new SelectList(Enumerable.Empty<SelectListItem>(), "CourseID", "Title"), 
+               "Course", new { @class = "form-control",id = "Course" })
+                @Html.ValidationMessageFor(model => model.CourseID, "", new { @class = "text-danger"})
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Semester", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.semester, new SelectList(ViewBag.SelectedSemester, "Value", "Text"), new { @class = "form-control"})
+                @Html.ValidationMessageFor(model => model.semester, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Required?", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.level, new SelectList(ViewBag.SelectedLevel, "Value", "Text"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.level, "", new { @class = "text-danger" })
+            </div>
+        </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+ }
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

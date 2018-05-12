@@ -1,0 +1,55 @@
+﻿@model IEnumerable<SchoolManagement.Models.Enrollment>
+@{
+    ViewBag.Title = "Enroll";
+    Layout = "~/Views/Shared/_STULayout.cshtml";
+}
+<p>
+   Create: @Html.ActionLink("Required", "CreateEnroll")|
+    @Html.ActionLink("Elective", "CreateElective")
+</p>
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        Select Semester:@Html.DropDownList("SelectedSemester", ViewBag.SelectedSemester as SelectList, "All", new { @class = "form-control" })
+        <input type="submit" value="Filter" class="btn btn-primary pull-right btn-sm" />
+    </div>
+}
+<table class="table">
+    <tr>
+        <th>CourseID</th>
+        <th>Course</th>
+        <th>Credits</th>
+        <th>InstructorID</th>
+        <th>Instructor</th>
+        <th>grade</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course.Credits)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InstructorID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Instructor.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grade)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "DeleteEnroll", new { id = item.EnrollmentID })
+            </td>
+        </tr>
+    }
+
+</table>
+@Html.ActionLink("Course Table", "toTable", "Student")

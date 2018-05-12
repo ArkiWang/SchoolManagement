@@ -1,0 +1,22 @@
+﻿@model SchoolManagement.Models.Instructor
+@{
+    ViewBag.Title = "InstructorLogin";
+}
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(false);
+    <div class="form-group">
+        @Html.LabelFor(m => m.Login)
+        @Html.TextBoxFor(m => m.Login, new { @class = "form-control", placeholder = "Enter UserName" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.PassWord)
+        @Html.PasswordFor(m => m.PassWord, new { @class = "form-control", placeholder = "Enter PassWord" })
+    </div>
+
+    <div class="btn-group pull-right">
+        <button type="submit" class="btn btn-primary" id="btnLogin">Login</button>
+    </div>
+    <div class="clearfix"></div>
+}

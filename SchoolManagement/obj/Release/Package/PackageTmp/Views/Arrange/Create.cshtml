@@ -1,0 +1,100 @@
+﻿@model SchoolManagement.Models.LocationTime
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_DBALayout.cshtml";
+}
+<h2>Create</h2>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+    function FillInstructor() {
+        var courseId = $('#Course').val();
+        $.ajax({
+            url: '/Arrange/FillInstructor',
+            type: "GET",
+            dataType: "JSON",
+            data: { CourseId: courseId },
+            success: function (instructors) {
+                $("#Instructor").html("");
+                $.each(instructors, function (i, instructor) {
+                    $("#Instructor").append(
+                        $('<option></option>').val(instructor.InstructorID).html(instructor.FullName));
+                });
+            }
+        });
+    }
+</script>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Classroom", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ClassRoomID, ViewBag.ClassroomID as SelectList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ClassRoomID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+            <div class="form-group">
+                @Html.Label("Course", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.CourseID, ViewBag.CourseID as SelectList,"Course", new { @class = "form-control",@onchange= "FillInstructor()",id="Course" })
+                    @Html.ValidationMessageFor(model => model.CourseID, "", new { @class = "text-danger", @onchange=""})
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Instructor", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.InstructorID, new SelectList(Enumerable.Empty<SelectListItem>(), "InstructorID", "FullName"),
+                  "Instructor",
+                  new { @class = "form-control", id = "Instructor" })
+                    @Html.ValidationMessageFor(model => model.InstructorID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        <!--checkbox-->
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <table>
+                    <tr>
+                        @{
+                            int cnt = 0;
+                            List<SchoolManagement.Models.Time> times = ViewBag.Times;
+
+                            foreach (var time in times)
+                            {
+                                if (cnt++ % 3 == 0)
+                                {
+                                    @:</tr><tr>
+                                }
+                                @:<td>
+                                    <input type="checkbox"
+                                           name="selectedTimes"
+                                           value="@time.TimeID" />
+                                    @time.TimeID @:  @time.Content
+                                    @:</td>
+                            }
+                            @:</tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+
+

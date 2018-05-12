@@ -1,0 +1,23 @@
+﻿@model IEnumerable<SchoolManagement.ViewModels.StatisticData>
+@{
+    ViewBag.Title = "Statistic";
+    Layout = "~/Views/Shared/_INSLayout.cshtml";
+}
+<div class="form-group">
+    <table class="table">
+        <tr>
+            <th>CourseID</th>
+            <th>Title</th>
+            <th>avgGrade</th>
+        </tr>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@item.CourseID</td>
+                <td>@item.Title</td>
+                <td>@item.avgGrade</td>
+            </tr>
+        }
+    </table>
+</div>
+

@@ -1,0 +1,92 @@
+﻿@model SchoolManagement.Models.Enrollment
+@{
+    ViewBag.Title = "CreateEnroll";
+    Layout = "~/Views/Shared/_STULayout.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+    function FillCourse()
+    {
+        var DepartmentID = $('#Department').val();
+        $.ajax({
+            url: '/Student/FillSchedualedCourse',
+            type: "GET",
+            dataType: "JSON",
+            data: { departmentID: DepartmentID },
+            success: function (courses) {
+                $("#Course").html("");
+                $.each(courses, function (i, course) {
+                    $("#Course").append(
+                        $('<option></option>').val(course.CourseID).html(course.Title));
+                });
+            }
+        });
+        $.ajax({
+            url: '/Student/FillInstructorAhead',
+            type: "GET", 
+            dataType: "JSON",
+            data: { departmentID: DepartmentID },
+            success: function (instructors) {
+                $("#Instructor").html("");
+                $.each(instructors, function (i, instructor) {
+                    $("#Instructor").append(
+                        $('<option></option>').val(instructor.InstructorID).html(instructor.FullName));
+                });
+            }
+        });
+    }
+    function FillInstructor() {
+        var courseId = $('#Course').val();
+        $.ajax({
+            url: '/Arrange/FillInstructor',
+            type: "GET",
+            dataType: "JSON",
+            data: { CourseId: courseId },
+            success: function (instructors) {
+                $("#Instructor").html("");
+                $.each(instructors, function (i, instructor) {
+                    $("#Instructor").append(
+                        $('<option></option>').val(instructor.InstructorID).html(instructor.FullName));
+                });
+            }
+        });
+    }
+</script>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Department", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Department", ViewBag.Dept as SelectList,"Department", 
+               new { @class = "form-control", id = "Department", @onchange = "FillCourse()"})
+            </div>
+         </div>
+        <div class="form-group">
+            @Html.Label("Course", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.CourseID, new SelectList(Enumerable.Empty<SelectListItem>(), "CourseID", "Title"),
+               "Course",new { @class = "form-control", @onchange = "FillInstructor()", id = "Course" })
+                @Html.ValidationMessageFor(model => model.CourseID, "", new { @class = "text-danger"})
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Instructor", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.InstructorID, new SelectList(Enumerable.Empty<SelectListItem>(), "InstructorID", "FullName"),
+                  "Instructor", new { @class = "form-control", id = "Instructor" })
+                @Html.ValidationMessageFor(model => model.InstructorID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+

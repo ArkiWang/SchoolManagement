@@ -1,0 +1,55 @@
+﻿@model SchoolManagement.Models.Schedual
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_INSLayout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CourseID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CourseID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.course.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.course.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.department.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.department.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.semester)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.semester)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.SchedualID)
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

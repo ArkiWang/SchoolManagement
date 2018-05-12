@@ -1,0 +1,70 @@
+﻿@model SchoolManagement.Models.Enrollment
+@{
+    ViewBag.Title = "EditGrade";
+    Layout = "~/Views/Shared/_INSLayout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.RowVersion)
+    <div class="form-horizontal">
+        <hr />
+        <div>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.CourseID)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(item => item.CourseID)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Course.Title)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(item => item.Course.Title)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Course.Credits)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(item => item.Course.Credits)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.StudentID)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.StudentID)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Student.FullName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Student.FullName)
+                </dd>
+
+            </dl>
+        </div> 
+        <div class="form-group"> 
+            @Html.LabelFor(model => model.Grade, new { htmlAttributes =new { @class = "control-label col-md-2" } })
+            <div class="col-md-10">
+                @Html.EditorFor(item=>item.Grade, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Grade, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

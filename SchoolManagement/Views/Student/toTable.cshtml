@@ -1,0 +1,47 @@
+﻿@model IEnumerable<SchoolManagement.ViewModels.TableViewData>
+@{
+    ViewBag.Title = "toTable";
+    Layout = "~/Views/Shared/_STULayout.cshtml";
+}
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        Select Semester:@Html.DropDownList("SelectedSemester", ViewBag.SelectedSemester as SelectList, "All", new { @class = "form-control" })
+        <input type="submit" value="Filter" class="btn btn-primary pull-right btn-sm" />
+    </div>
+}
+@if (Model != null)
+{
+    <table class="table table-bordered table-condensed table-hover table-striped">
+    <tr>
+        <th>no</th>
+        <th>Monday</th>
+        <th>Tuseday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Firday</th>
+    </tr>
+   @{ 
+       for (int i = 0; i < 3; i++)//row control
+       {
+           <tr>
+            <td>@(i + 1)</td>
+              @for (int j = 0; j < 5; j++)//col content for each row
+              {
+                <td>
+                    @foreach (var item in Model)
+                    {
+                        if (item.TimeID == i * 5 + j)
+                        {
+                            @item.Title<br />
+                            @item.Location<br />
+                            @item.FullName<br />
+                        }
+                    }
+                </td>
+              }  
+           </tr>
+       }
+   }
+</table>
+}
